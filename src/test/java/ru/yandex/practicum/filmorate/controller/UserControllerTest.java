@@ -38,7 +38,7 @@ class UserControllerTest {
     }
 
     @Test
-    void whenFailEmail_thenOneConstraintViolations()  {
+    void whenFailEmail_thenOneConstraintViolations() {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         User user = new User();
         user.setEmail("null@.@");
@@ -47,7 +47,7 @@ class UserControllerTest {
     }
 
     @Test
-    void whenNullLogin_thenOneConstraintViolation(){
+    void whenNullLogin_thenOneConstraintViolation() {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         User user = new User();
         user.setLogin(null);
@@ -56,7 +56,7 @@ class UserControllerTest {
     }
 
     @Test
-    void whenBlankLogin_thenOneConstraintViolation(){
+    void whenBlankLogin_thenOneConstraintViolation() {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         User user = new User();
         user.setLogin(" ");
