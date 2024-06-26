@@ -41,7 +41,7 @@ public class FilmController {
 
         film.setId(FilmorateApplication.getNextId(films));
         films.put(film.getId(), film);
-        log.info("Добавили фильм: {}", film);
+        log.info("POS request: {}", film);
         return film;
 
     }
@@ -56,11 +56,11 @@ public class FilmController {
             checkBody(newFilm);
 
             Film oldFilm = films.get(newFilm.getId());
-            oldFilm.setName(oldFilm.getName());
+            oldFilm.setName(newFilm.getName());
             oldFilm.setDescription(newFilm.getDescription());
-            oldFilm.setDuration(oldFilm.getDuration());
-            oldFilm.setReleaseDate(oldFilm.getReleaseDate());
-            log.info("Изменили фильм: {}", oldFilm);
+            oldFilm.setDuration(newFilm.getDuration());
+            oldFilm.setReleaseDate(newFilm.getReleaseDate());
+            log.info("PUT request: {}", newFilm);
             return oldFilm;
         }
         throw new NotFoundException("Фильм с id = " + newFilm.getId() + " не найден");
@@ -73,7 +73,7 @@ public class FilmController {
         if (film.getReleaseDate().isBefore(MIN_RELEASE_DATE)) {
             throw new ConditionsNotMetException("Дата релиза не может быть раньше " + MIN_RELEASE_DATE);
         }
-        if (film.getDuration().toMinutes() <= 0) {
+        if (film.getDuration().toSeconds() <= 0) {
             throw new ConditionsNotMetException("Укажите корректную продолжительность фильма");
         }
     }

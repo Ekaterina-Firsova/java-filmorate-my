@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,5 +39,6 @@ public class Film {
     /**
      * Duration of the Film.
      */
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private Duration duration;
 }

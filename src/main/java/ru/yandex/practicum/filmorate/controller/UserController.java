@@ -29,7 +29,7 @@ public class UserController {
         checkBody(user);
         user.setId(FilmorateApplication.getNextId(users));
         users.put(user.getId(), user);
-        log.info("Создали пользователя: {}", user);
+        log.info("POS request: {}", user);
         return user;
     }
 
@@ -51,7 +51,7 @@ public class UserController {
             oldUser.setLogin(newUser.getLogin());
             oldUser.setBirthday(newUser.getBirthday());
 
-            log.info("Изменили пользователя: {}", oldUser);
+            log.info("PUT request: {}", newUser);
             return oldUser;
         }
         throw new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден");
