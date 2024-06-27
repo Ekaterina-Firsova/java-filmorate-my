@@ -14,6 +14,7 @@ import java.util.Set;
 import static java.time.Duration.ofMinutes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.yandex.practicum.filmorate.model.Film.MAX_DESCRIPTION_LENGTH;
 
 class FilmControllerTest {
     Validator validator;
@@ -45,12 +46,11 @@ class FilmControllerTest {
 
     @Test
     void whenDescriptionLongerDESCRIPTION_LENGTH_thenException() {
-        Film testFilm = new Film();
-        testFilm.setName("Test Name");
-        testFilm.setDescription("*".repeat(201));
-        testFilm.setReleaseDate(LocalDate.now().minusYears(20));
-        testFilm.setDuration(ofMinutes(47));
-        assertThrows(ConditionsNotMetException.class, () -> filmController.createFilm(testFilm));
+        Film film = new Film();
+        film.setDescription("*".repeat(MAX_DESCRIPTION_LENGTH + 1));
+        Set<ConstraintViolation<Film>> violations = validator.validate(film);
+
+        assertEquals(2, violations.size());
     }
 
     @Test
