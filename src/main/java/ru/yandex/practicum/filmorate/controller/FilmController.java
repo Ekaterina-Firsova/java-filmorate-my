@@ -63,6 +63,9 @@ public class FilmController {
     }
 
     private void checkBody(Film film) {
+        if (film.getDescription() != null && film.getDescription().length() > Film.DESCRIPTION_LENGTH) {
+            throw new ConditionsNotMetException("Описание не может превышать " + Film.DESCRIPTION_LENGTH + " символов");
+        }
         if (film.getReleaseDate().isBefore(Film.MIN_RELEASE_DATE)) {
             throw new ConditionsNotMetException("Дата релиза не может быть раньше " + Film.MIN_RELEASE_DATE);
         }

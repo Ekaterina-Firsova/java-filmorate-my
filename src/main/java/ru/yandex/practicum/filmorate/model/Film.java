@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,12 +16,12 @@ import java.time.LocalDate;
 @EqualsAndHashCode(of = {"name", "releaseDate", "duration"})
 public class Film {
     public static final LocalDate MIN_RELEASE_DATE = LocalDate.of(1895, 12, 28);
+    public static final int DESCRIPTION_LENGTH = 200;
     private Long id;
 
     @NotBlank
     private String name;
 
-    @Size(max = 200)
     private String description;
 
     private LocalDate releaseDate;
