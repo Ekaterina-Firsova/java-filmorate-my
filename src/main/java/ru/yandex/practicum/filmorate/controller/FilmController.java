@@ -25,9 +25,6 @@ import java.util.Map;
 @RequestMapping("/films")
 @Slf4j
 public class FilmController {
-    static final int DESCRIPTION_LENGTH = 200;
-    static final LocalDate MIN_RELEASE_DATE = LocalDate.of(1895, 12, 28);
-
     private final Map<Long, Film> films = new HashMap<>();
 
     @GetMapping
@@ -67,11 +64,8 @@ public class FilmController {
     }
 
     private void checkBody(Film film) {
-        if (film.getDescription() != null && film.getDescription().length() > DESCRIPTION_LENGTH) {
-            throw new ConditionsNotMetException("Описание не может превышать " + DESCRIPTION_LENGTH + " символов");
-        }
-        if (film.getReleaseDate().isBefore(MIN_RELEASE_DATE)) {
-            throw new ConditionsNotMetException("Дата релиза не может быть раньше " + MIN_RELEASE_DATE);
+        if (film.getReleaseDate().isBefore(Film.MIN_RELEASE_DATE)) {
+            throw new ConditionsNotMetException("Дата релиза не может быть раньше " + Film.MIN_RELEASE_DATE);
         }
         if (film.getDuration().toSeconds() <= 0) {
             throw new ConditionsNotMetException("Укажите корректную продолжительность фильма");
