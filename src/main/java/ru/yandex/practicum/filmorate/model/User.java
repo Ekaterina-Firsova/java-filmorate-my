@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * This class represents a user in a social network.
@@ -24,5 +25,7 @@ public class User {
     private String login;
 
     private LocalDate birthday;
+
+    private Set<Long> friends;
 }
 

@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * This class represents a Film object with properties such as id, name, description, releaseDate, and duration.
@@ -30,4 +31,7 @@ public class Film {
 
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private Duration duration;
+
+    //id пользователей, которые лайкнули фильм
+    private Set<Long> usersLike;
 }
