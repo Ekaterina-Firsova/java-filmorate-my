@@ -25,7 +25,7 @@ public class UserService {
     }
 
     public User update(User newUser) {
-        return userStorage.createUser(newUser);
+        return userStorage.update(newUser);
     }
 
     public Collection<User> getFriends(long userId) {
