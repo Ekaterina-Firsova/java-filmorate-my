@@ -98,12 +98,6 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     private void checkFilm(Film film) {
-        if (film.getDescription() != null && film.getDescription().length() > Film.MAX_DESCRIPTION_LENGTH) {
-            throw new ConditionsNotMetException("Описание не может превышать " + Film.MAX_DESCRIPTION_LENGTH + " символов");
-        }
-        if (film.getReleaseDate().isBefore(Film.MIN_RELEASE_DATE)) {
-            throw new ConditionsNotMetException("Дата релиза не может быть раньше " + Film.MIN_RELEASE_DATE);
-        }
         if (film.getDuration().toSeconds() <= 0) {
             throw new ConditionsNotMetException("Укажите корректную продолжительность фильма");
         }

@@ -49,23 +49,39 @@ public class FilmController {
         return filmService.update(newFilm);
     }
 
-    //запрос добавляет лайк определенного пользователя
+   /**
+     * запрос добавляет лайк определенного пользователя
+     * @param id идентификатор фильма
+     * @param userId индетификатор пользователя
+     * @return фильм
+     */
     @PutMapping("{id}/like/{userId}")
     public Film addLike(@PathVariable long id, @PathVariable long userId) {
         log.info("PUT addLike: {}", id);
         return filmService.addLike(id, userId);
     }
 
-    //запрос удаляет лайк определенного пользователя
+    //
+    /**
+     * запрос удаляет лайк определенного пользователя
+     * @param id идентификатор фильма
+     * @param userId индетификатор пользователя
+     * @return фильм
+     */
     @DeleteMapping("{id}/like/{userId}")
     public Film deleteLike(@PathVariable long id, @PathVariable long userId) {
         log.info("DELETE deleteLike: {}", id);
         return filmService.deleteLike(id, userId);
     }
 
-    //GET /films/popular?count={count}
     //возвращает список из первых count фильмов по количеству лайков.
     // Если значение параметра count не задано, вернет первые 10
+    /**
+     * возвращает список из первых count фильмов по количеству лайков.
+     * Если значение параметра count не задано, вернет первые 10
+     * @param count количество фильмом в выборке
+     * @return коллекцию фильмов
+     */
     @GetMapping("popular")
     public Collection<Film> getRating(@RequestParam(required = false, defaultValue = "10") String count) {
         return filmService.getRating(Integer.valueOf(count));
