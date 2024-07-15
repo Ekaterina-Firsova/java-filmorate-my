@@ -7,6 +7,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.storage.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -23,7 +28,10 @@ class FilmControllerTest {
     @BeforeEach
     public void setUp() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
-        filmController = new FilmController();
+        UserStorage userStorage = new InMemoryUserStorage();
+        FilmStorage filmStorage = new InMemoryFilmStorage(userStorage);
+        FilmService filmService = new FilmService(filmStorage, userStorage);
+        filmController = new FilmController(filmService);
     }
 
     @Test
