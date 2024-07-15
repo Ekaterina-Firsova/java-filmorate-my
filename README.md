@@ -24,7 +24,7 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 -	birthday – дата рождения
 -	created_at - время создания записи
 ### Genre
-– виды жанров
+– справочник жанров
 -	id – уникальный идентификатор
 -	name – название жанра
 ### Films_genre
