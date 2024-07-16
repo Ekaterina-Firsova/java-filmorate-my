@@ -16,7 +16,7 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 - id_rating – рейтинг МРА
 - created_at – время создания записи
 
-### Users
+### users
 
 – содержит данные пользователя
 
@@ -27,14 +27,14 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 - birthday – дата рождения
 - created_at - время создания записи
 
-### Genre
+### genre
 
 – справочник жанров
 
 - id – уникальный идентификатор
 - name – название жанра
 
-### Films_genre
+### films_genre
 
 – содержит информацию у какого фильма какой жанр
 
@@ -42,7 +42,7 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 - id_genre – id жанра
 - id_film – id фильма
 
-### usersLike
+### user_likes
 
 – содержит информацию о том какой юзер какой фильм лайкнул
 
@@ -70,60 +70,60 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 
 ```
 Table films {
-id integer [primary key]
-name varchar
-description varchar
-releaseDate date
-duration integer
-id_rating integer
-created_at timestamp
+  id integer [primary key]
+  name varchar
+  description varchar
+  release_date date
+  duration integer
+  id_rating integer
+  created_at timestamp 
 }
 
 Table users {
-id integer [primary key]
-name varchar
-email varchar
-login varchar
-birthday date
-created_at timestamp
+  id integer [primary key]
+  name varchar
+  email varchar
+  login varchar
+  birthday date
+  created_at timestamp
 }
 
 Table films_genre {
-id integer [primary key]
-id_genre integer
-id_film integer
+  id integer [primary key]
+  id_genre integer
+  id_film integer
 }
 
 Table genre {
-id integer [primary key]
-name varchar
+  id integer [primary key]
+  name varchar
 }
 
-Table usersLike {
-id integer [primary key]
-id_user integer
-id_film integer
+Table user_likes {
+  id integer [primary key]
+  id_user integer
+  id_film integer
 }
 
 Table friends {
-id integer [primary key]
-id_user integer
-confirmed bool
-id_friend integer
+  id integer [primary key]
+  id_user integer
+  confirmed bool
+  id_friend integer 
 }
 
 Table rating {
-id integer [primary key]
-name varchar
+  id integer [primary key]
+  name varchar
 }
 
 Ref: "films"."id" < "films_genre"."id_film"
 
 Ref: "genre"."id" < "films_genre"."id_genre"
 
-Ref: "films"."id" < "usersLike"."id_film"
+Ref: "films"."id" < "user_likes"."id_film"
 
-Ref: "users"."id" < "usersLike"."id_user"
+Ref: "users"."id" < "user_likes"."id_user"
 
 Ref: "users"."id" < "friends"."id_user"
 
