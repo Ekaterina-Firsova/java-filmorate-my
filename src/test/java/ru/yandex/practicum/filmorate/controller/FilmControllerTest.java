@@ -30,7 +30,7 @@ class FilmControllerTest {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
         UserStorage userStorage = new InMemoryUserStorage();
         FilmStorage filmStorage = new InMemoryFilmStorage(userStorage);
-        FilmService filmService = new FilmService(filmStorage, userStorage);
+        FilmService filmService = new FilmService(filmStorage);
         filmController = new FilmController(filmService);
     }
 

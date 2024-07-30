@@ -4,17 +4,16 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 
 # Описание структуры БД
 
-### Films
+### films
 
 – содержит информацию о фильмах
 
 - id – уникальный идентификатор
 - name – название фильма
 - description – описание фильма
-- releaseDate – дата выпуска
+- release_date – дата выпуска
 - duration – продолжительность в секуднах
 - id_rating – рейтинг МРА
-- created_at – время создания записи
 
 ### users
 
@@ -25,7 +24,6 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 - email – электронная почта
 - login - логин
 - birthday – дата рождения
-- created_at - время создания записи
 
 ### genre
 
@@ -38,7 +36,6 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 
 – содержит информацию у какого фильма какой жанр
 
-- id – уникальный идентификатор
 - id_genre – id жанра
 - id_film – id фильма
 
@@ -46,7 +43,6 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 
 – содержит информацию о том какой юзер какой фильм лайкнул
 
-- id – уникальный идентификатор
 - id_user – идентификатор пользователя
 - id_film – идентификатор фильма
 
