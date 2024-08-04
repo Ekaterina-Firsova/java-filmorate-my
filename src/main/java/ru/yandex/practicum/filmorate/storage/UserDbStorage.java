@@ -79,7 +79,8 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User getUser(long userId) {
-        return null;
+        return userRepository.getUser(userId).
+                orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден"));
     }
 
     private void checkUser(User user) {

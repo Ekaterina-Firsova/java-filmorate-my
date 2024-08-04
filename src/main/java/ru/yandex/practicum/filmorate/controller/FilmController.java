@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.yandex.practicum.filmorate.dto.NewFilmRequest;
+import ru.yandex.practicum.filmorate.mapper.FilmMapper;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
@@ -38,9 +40,13 @@ public class FilmController {
     }
 
     @PostMapping
-    public Film createFilm(@Valid @RequestBody Film film) {
-        log.info("POST createFilm: {}", film);
-        return filmService.createFilm(film);
+    public NewFilmRequest createFilm(@Valid @RequestBody NewFilmRequest request) {
+        log.info("POST createFilm: {}", request);
+        //приводим запрос к виду нашей таблицы
+        Film film = FilmMapper.mapToFilm(request);
+        Film resultFilm = filmService.createFilm(film);
+        //приводим ответ к виду запроса
+        return FilmMapper.mapToFilmRequest(resultFilm);
     }
 
     @PutMapping

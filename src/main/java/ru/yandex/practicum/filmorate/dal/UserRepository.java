@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.dal;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.Collection;
@@ -95,5 +96,9 @@ public class UserRepository extends BaseRepository<User> {
                 " LEFT JOIN PUBLIC.users ON FRIENDS.ID_FRIEND = users.ID" +
                 " WHERE FRIENDS.id_user = ?", userId);
     }
-}
+
+    public Optional<User> getUser(long userId) {
+        return findOne("SELECT * FROM users WHERE ID =?", userId);
+    }
+ }
 

@@ -12,8 +12,6 @@ import java.util.Collection;
 public class FilmService {
     @Qualifier("filmDbStorage") // Выбор реализации
     private final FilmStorage filmStorage;
-    //@Qualifier("userDbStorage")
-    //private final UserStorage usersStorage;
 
     public Film createFilm(Film film) {
         return filmStorage.createFilm(film);
