@@ -9,7 +9,13 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Component("userDbStorage")
@@ -47,16 +53,18 @@ public class UserDbStorage implements UserStorage {
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
         User friend = userRepository.findById(friendId)
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+        friend.setFriends(userRepository.getALLFriendsIds(friendId));
+
         if (userId == friendId) {
             throw new NotFoundException("Невозможно добавить в друзья самого себя");
         }
-        if (friend.getFriends() != null) {
-            if (friend.getFriends().contains(userId)) {
-                status = true;
-            }
+        if (friend.getFriends() != null && friend.getFriends().contains(userId)) {
+            status = true;
             userRepository.updateFriendsStatus(friendId, userId, status);
         }
-        return userRepository.addFriend(user, friendId, status);
+        User newFriend = userRepository.addFriend(user, friendId, status);
+        newFriend.setFriends(userRepository.getALLFriendsIds(newFriend.getId()));
+        return newFriend;
     }
 
     @Override
@@ -69,12 +77,26 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User deleteFriend(long id, long friendId) {
+        User user = userRepository.getUser(id).
+                orElseThrow(() -> new NotFoundException("Пользователь с id = " + id + " не найден"));
+        userRepository.getUser(friendId).
+                orElseThrow(() -> new NotFoundException("Пользователь с id = " + friendId + " не найден"));
+//        userRepository.checkFriend(id, friendId).
+//                orElseThrow(()-> new NotFoundException("Друг " + friendId + " не является другом " + id));
+        if (userRepository.deleteFriend(id, friendId)) {
+            userRepository.updateFriendsStatus(friendId, id, false);
+            return user;
+        }
         return null;
     }
 
     @Override
     public Collection<User> getCommonFriends(long userId, long otherId) {
-        return List.of();
+        userRepository.getUser(userId).
+                orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден"));
+        userRepository.getUser(otherId).
+                orElseThrow(() -> new NotFoundException("Пользователь с id = " + otherId + " не найден"));
+        return userRepository.getCommonFriends(userId, otherId);
     }
 
     @Override

@@ -46,13 +46,20 @@ public class FilmController {
         Film film = FilmMapper.mapToFilm(request);
         Film resultFilm = filmService.createFilm(film);
         //приводим ответ к виду запроса
-        return FilmMapper.mapToFilmRequest(resultFilm);
+        NewFilmRequest newrequest =  FilmMapper.mapToFilmRequest(resultFilm);
+        return newrequest;
     }
 
     @PutMapping
-    public Film update(@Valid @RequestBody Film newFilm) {
-        log.info("PUT update film: {}", newFilm);
-        return filmService.update(newFilm);
+    public NewFilmRequest update(@Valid @RequestBody NewFilmRequest request) {
+        log.info("PUT update film: {}", request);
+        //приводим запрос к виду нашей таблицы
+        Film film = FilmMapper.mapToFilm(request);
+        Film resultFilm = filmService.update(film);
+        //приводим ответ к виду запроса
+        NewFilmRequest newrequest =  FilmMapper.mapToFilmRequest(resultFilm);
+
+        return newrequest;
     }
 
    /**

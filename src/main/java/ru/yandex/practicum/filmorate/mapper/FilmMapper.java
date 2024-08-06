@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public final class FilmMapper {
     public static Film mapToFilm(NewFilmRequest request) {
         Film film = new Film();
+        film.setId(request.getId());
         film.setName(request.getName());
         film.setDescription(request.getDescription());
         film.setDuration(request.getDuration());
@@ -47,18 +48,15 @@ public final class FilmMapper {
         mpa.setId(film.getMpa());
         request.setMpa(mpa);
 
-        Set<Genre> genres = new HashSet<>();
-        for (Integer id : film.getGenres()) {
-            Genre genre = new Genre();
-            genre.setId(id);
-            genres.add(genre);
+        if (film.getGenres()!=null) {
+            Set<Genre> genres = new HashSet<>();
+            for (Integer id : film.getGenres()) {
+                Genre genre = new Genre();
+                genre.setId(id);
+                genres.add(genre);
+            }
+            request.setGenres(genres);
         }
-        request.setGenres(genres);
-
-//        request.setGenres(film.getGenres().stream()
-//                .map(genreId -> genreMap.get(genreId))
-//                .collect(Collectors.toSet()));
-
 
         return request;
     }

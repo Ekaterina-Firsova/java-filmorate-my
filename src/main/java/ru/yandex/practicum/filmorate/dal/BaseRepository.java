@@ -40,6 +40,11 @@ public class BaseRepository<T> {
         return rowsDeleted > 0;
     }
 
+    protected boolean delete(String query, long id1, long id2) {
+        int rowsDeleted = jdbc.update(query, id1, id2);
+        return rowsDeleted > 0;
+    }
+
     protected void update(String query, Object... params) {
         int rowsUpdated = jdbc.update(query, params);
         if (rowsUpdated == 0) {
@@ -59,7 +64,7 @@ public class BaseRepository<T> {
 
         Integer id = keyHolder.getKeyAs(Integer.class);
 
-        // Возвращаем id нового пользователя
+        // Возвращаем id добавленной строки
         if (id != null) {
             return id;
         } else {

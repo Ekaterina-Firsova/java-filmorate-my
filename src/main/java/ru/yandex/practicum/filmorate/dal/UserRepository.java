@@ -35,12 +35,15 @@ public class UserRepository extends BaseRepository<User> {
         return users;
     }
 
-    private Set<Long> getALLFriendsIds(long id) {
+    public Set<Long> getALLFriendsIds(long id) {
         return new HashSet<>(findManyIds("SELECT id_friend FROM friends WHERE id_user = ?", id));
     }
 
     public void updateFriendsStatus(Long userId, Long friendId, boolean status) {
-        update("UPDATE friends SET confirmed = ? WHERE id_user = ? AND id_friend = ?", status, userId, friendId);
+        Set<Long> ids = getALLFriendsIds(friendId);
+        if (ids != null && ids.contains(userId)) {
+            update("UPDATE friends SET confirmed = ? WHERE id_user = ? AND id_friend = ?", status, userId, friendId);
+        }
     }
 
     public Optional<User> findByEmail(String email) {
@@ -82,23 +85,47 @@ public class UserRepository extends BaseRepository<User> {
                 friendId,
                 status
         );
-        if (user.getFriends() == null) {
-            user.setFriends(new HashSet<>());
-        }
-        user.getFriends().add(friendId);
+//        if (user.getFriends() == null) {
+//            user.setFriends(new HashSet<>());
+//        }
+        //user.getFriends().add(friendId);
         return user;
     }
 
     public Collection<User> getFriends(long userId) {
         return findMany(
                 "SELECT USERS.*" +
-                " FROM PUBLIC.FRIENDS" +
-                " LEFT JOIN PUBLIC.users ON FRIENDS.ID_FRIEND = users.ID" +
-                " WHERE FRIENDS.id_user = ?", userId);
+                        " FROM PUBLIC.FRIENDS" +
+                        " LEFT JOIN PUBLIC.users ON FRIENDS.ID_FRIEND = users.ID" +
+                        " WHERE FRIENDS.id_user = ?", userId);
     }
 
     public Optional<User> getUser(long userId) {
         return findOne("SELECT * FROM users WHERE ID =?", userId);
     }
- }
+
+    public List<User> getCommonFriends(long userId, long otherId) {
+        List<User> commonFriends = findMany(
+                "SELECT u.*" +
+                        " FROM FRIENDS f1" +
+                        " JOIN FRIENDS f2 ON f1.ID_FRIEND = f2.ID_FRIEND " +
+                        " JOIN USERS u ON f1.ID_FRIEND = u.ID" +
+                        " WHERE f1.ID_USER = ? AND f2.ID_USER = ?",
+                userId, otherId);
+        return commonFriends;
+    }
+
+    public boolean deleteFriend(long id, long friendId) {
+        return delete("DELETE FROM friends WHERE ID_USER = ? AND ID_FRIEND =?", id, friendId);
+    }
+
+    public Optional<User> checkFriend(long userId, long friendId) {
+        return findOne(
+                "SELECT USERS.*" +
+                        " FROM PUBLIC.FRIENDS" +
+                        " LEFT JOIN PUBLIC.users ON FRIENDS.ID_FRIEND = users.ID" +
+                        " WHERE FRIENDS.id_user = ? AND FRIENDS.id_friend = ?", userId, friendId);
+    }
+
+}
 

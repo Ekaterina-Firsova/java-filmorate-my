@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Mpa;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,9 +17,12 @@ public class MpaRepository extends BaseRepository<Mpa> {
         super(jdbc, mapper);
     }
 
-    public Optional<Mpa> getMpa(int id) {
+    public Optional<Mpa> getById(int id) {
         return findOne("SELECT * FROM mpa WHERE ID =?", id);
     }
 
 
+    public Collection<Mpa> findAll() {
+        return findMany("SELECT * FROM mpa ORDER BY id");
+    }
 }
