@@ -67,7 +67,7 @@ public class FilmRepository extends BaseRepository<Film> {
         return newFilm;
     }
 
-    private Set<Long> getFilmGenres(long id) {
+    public Set<Long> getFilmGenres(long id) {
         return new HashSet<>(findManyIds("SELECT id_genre FROM film_genres WHERE id_film = ?", id));
     }
 

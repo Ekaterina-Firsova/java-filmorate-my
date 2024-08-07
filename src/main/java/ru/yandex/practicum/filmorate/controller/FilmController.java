@@ -15,9 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.filmorate.dto.NewFilmRequest;
 import ru.yandex.practicum.filmorate.mapper.FilmMapper;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.service.GenreService;
+import ru.yandex.practicum.filmorate.service.MpaService;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Controller для обслуживания фильмов
@@ -28,6 +36,9 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class FilmController {
     private final FilmService filmService;
+    private final GenreService genreService;
+    private final MpaService mpaService;
+
 
     @GetMapping
     public Collection<Film> getAll() {
@@ -35,8 +46,19 @@ public class FilmController {
     }
 
     @GetMapping("{id}")
-    public Film getFilm(@PathVariable long id) {
-        return filmService.getFilm(id);
+    public NewFilmRequest getFilm(@PathVariable long id) {
+        Film resultFilm = filmService.getFilm(id);
+        NewFilmRequest newrequest =  FilmMapper.mapToFilmRequest(resultFilm);
+        for (Genre reqGenre : newrequest.getGenres()){
+            String name = genreService.getById(reqGenre.getId()).getName();
+            reqGenre.setName(name);
+        }
+
+        Mpa mpa = mpaService.getById(newrequest.getMpa().getId());
+        newrequest.getMpa().setName(mpa.getName());
+        newrequest.getMpa().setDescription(mpa.getDescription());
+
+       return newrequest;
     }
 
     @PostMapping

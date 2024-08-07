@@ -13,6 +13,8 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component("filmDbStorage")
 @RequiredArgsConstructor
@@ -24,8 +26,13 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film getFilm(long id) {
-        return filmRepository.getFilm(id).
+        Film film = filmRepository.getFilm(id).
                 orElseThrow(() -> new NotFoundException("Фильм с id = " + id + " не найден"));
+        Set<Integer> genres = filmRepository.getFilmGenres(film.getId()).stream()
+                .map(Long::intValue)
+                .collect(Collectors.toSet());
+        film.setGenres(genres);
+        return film;
     }
 
     @Override
