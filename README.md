@@ -35,14 +35,14 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 ### films_genre
 
 – содержит информацию у какого фильма какой жанр
-
+- id – уникальный идентификатор
 - id_genre – id жанра
 - id_film – id фильма
 
 ### user_likes
 
 – содержит информацию о том какой юзер какой фильм лайкнул
-
+- id – уникальный идентификатор
 - id_user – идентификатор пользователя
 - id_film – идентификатор фильма
 
@@ -72,7 +72,6 @@ Table films {
   release_date date
   duration integer
   id_rating integer
-  created_at timestamp 
 }
 
 Table users {
@@ -81,10 +80,9 @@ Table users {
   email varchar
   login varchar
   birthday date
-  created_at timestamp
 }
 
-Table films_genre {
+Table film_genres {
   id integer [primary key]
   id_genre integer
   id_film integer
@@ -111,11 +109,12 @@ Table friends {
 Table rating {
   id integer [primary key]
   name varchar
+  description varchar
 }
 
-Ref: "films"."id" < "films_genre"."id_film"
+Ref: "films"."id" < "film_genres"."id_film"
 
-Ref: "genre"."id" < "films_genre"."id_genre"
+Ref: "genre"."id" < "film_genres"."id_genre"
 
 Ref: "films"."id" < "user_likes"."id_film"
 
