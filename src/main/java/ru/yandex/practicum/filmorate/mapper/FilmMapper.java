@@ -7,8 +7,8 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Mpa;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -44,7 +44,7 @@ public final class FilmMapper {
         request.setMpa(mpa);
 
         if (film.getGenres() != null) {
-            Set<Genre> genres = new HashSet<>();
+            Set<Genre> genres = new TreeSet<>((g1, g2) -> Integer.compare(g1.getId(), g2.getId()));
             for (Integer id : film.getGenres()) {
                 Genre genre = new Genre();
                 genre.setId(id);
@@ -52,7 +52,6 @@ public final class FilmMapper {
             }
             request.setGenres(genres);
         }
-
         return request;
     }
 

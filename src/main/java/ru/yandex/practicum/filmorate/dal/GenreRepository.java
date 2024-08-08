@@ -20,6 +20,6 @@ public class GenreRepository extends BaseRepository<Genre> {
     }
 
     public Collection<Genre> findAll() {
-        return findMany("SELECT * FROM genres ORDER BY id");
+        return findMany("SELECT * FROM genres ORDER BY id_genre");
     }
 }
