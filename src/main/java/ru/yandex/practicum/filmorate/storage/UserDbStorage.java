@@ -69,10 +69,10 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User deleteFriend(long id, long friendId) {
-        User user = userRepository.getUser(id).
-                orElseThrow(() -> new NotFoundException("Пользователь с id = " + id + " не найден"));
-        userRepository.getUser(friendId).
-                orElseThrow(() -> new NotFoundException("Пользователь с id = " + friendId + " не найден"));
+        User user = userRepository.getUser(id)
+                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + id + " не найден"));
+        userRepository.getUser(friendId)
+                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + friendId + " не найден"));
         if (userRepository.deleteFriend(id, friendId)) {
             userRepository.updateFriendsStatus(friendId, id, false);
             return user;
@@ -82,17 +82,17 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public Collection<User> getCommonFriends(long userId, long otherId) {
-        userRepository.getUser(userId).
-                orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден"));
-        userRepository.getUser(otherId).
-                orElseThrow(() -> new NotFoundException("Пользователь с id = " + otherId + " не найден"));
+        userRepository.getUser(userId)
+                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден"));
+        userRepository.getUser(otherId)
+                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + otherId + " не найден"));
         return userRepository.getCommonFriends(userId, otherId);
     }
 
     @Override
     public User getUser(long userId) {
-        return userRepository.getUser(userId).
-                orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден"));
+        return userRepository.getUser(userId)
+                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден"));
     }
 
     private void checkUser(User user) {

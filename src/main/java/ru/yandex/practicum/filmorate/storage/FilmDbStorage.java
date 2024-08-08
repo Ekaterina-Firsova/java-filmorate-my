@@ -29,8 +29,8 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film getFilm(long id) {
-        Film film = filmRepository.getFilm(id).
-                orElseThrow(() -> new NotFoundException("Фильм с id = " + id + " не найден"));
+        Film film = filmRepository.getFilm(id)
+                .orElseThrow(() -> new NotFoundException("Фильм с id = " + id + " не найден"));
         Set<Integer> genres = filmRepository.getFilmGenres(film.getId()).stream()
                 .map(Long::intValue)
                 .collect(Collectors.toSet());
