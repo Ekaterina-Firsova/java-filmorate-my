@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.dal;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.Collection;
@@ -85,10 +84,6 @@ public class UserRepository extends BaseRepository<User> {
                 friendId,
                 status
         );
-//        if (user.getFriends() == null) {
-//            user.setFriends(new HashSet<>());
-//        }
-        //user.getFriends().add(friendId);
         return user;
     }
 

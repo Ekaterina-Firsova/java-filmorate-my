@@ -5,13 +5,15 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.dal.FilmRepository;
 import ru.yandex.practicum.filmorate.dal.GenreRepository;
 import ru.yandex.practicum.filmorate.dal.MpaRepository;
+import ru.yandex.practicum.filmorate.dal.UserLikeRepository;
 import ru.yandex.practicum.filmorate.dal.UserRepository;
 import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.model.UserLike;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,6 +25,7 @@ public class FilmDbStorage implements FilmStorage {
     private final MpaRepository mpaRepository;
     private final GenreRepository genreRepository;
     private final UserRepository userRepository;
+    private final UserLikeRepository userLikeRepository;
 
     @Override
     public Film getFilm(long id) {
@@ -59,13 +62,17 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public Film addLike(long filmId, long userId) {
         userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));;
-        return filmRepository.addLike(filmId, userId);
+                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+        Film film = filmRepository.addLike(filmId, userId);
+        putLikesToFilm(film);
+        return film;
     }
 
     @Override
     public Film deleteLike(long filmId, long userId) {
-        return filmRepository.deleteLike(filmId, userId);
+        Film film = filmRepository.deleteLike(filmId, userId);
+        putLikesToFilm(film);
+        return film;
     }
 
     @Override
@@ -85,12 +92,23 @@ public class FilmDbStorage implements FilmStorage {
             throw new ConditionsNotMetException("В справочнике такого MPA " + film.getMpa());
         }
 
-        if (film.getGenres() !=null) {
+        if (film.getGenres() != null) {
             for (Integer id : film.getGenres()) {
                 if (genreRepository.getById(id).isEmpty()) {
                     throw new ConditionsNotMetException("В справочнике такого жанра нет " + id);
                 }
             }
         }
+    }
+
+    private Film putLikesToFilm(Film film) {
+        //положить лайки в структуру данных фильма
+        List<UserLike> userLikes = userLikeRepository.getLike(film.getId());
+        Set<Long> idUsers = new HashSet<Long>();
+        for (UserLike userLike : userLikes) {
+            idUsers.add(userLike.getUserId());
+        }
+        film.setUsersLike(idUsers);
+        return film;
     }
 }

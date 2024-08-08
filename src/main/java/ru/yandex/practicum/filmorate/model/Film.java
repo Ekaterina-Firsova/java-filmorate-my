@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Set;
@@ -37,6 +36,4 @@ public class Film {
     private int mpa;
 
     private Set<Integer> genres;
-
-
 }

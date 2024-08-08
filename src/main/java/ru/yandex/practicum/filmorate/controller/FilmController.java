@@ -22,10 +22,7 @@ import ru.yandex.practicum.filmorate.service.GenreService;
 import ru.yandex.practicum.filmorate.service.MpaService;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 
 /**
  * Controller для обслуживания фильмов
@@ -48,8 +45,8 @@ public class FilmController {
     @GetMapping("{id}")
     public NewFilmRequest getFilm(@PathVariable long id) {
         Film resultFilm = filmService.getFilm(id);
-        NewFilmRequest newrequest =  FilmMapper.mapToFilmRequest(resultFilm);
-        for (Genre reqGenre : newrequest.getGenres()){
+        NewFilmRequest newrequest = FilmMapper.mapToFilmRequest(resultFilm);
+        for (Genre reqGenre : newrequest.getGenres()) {
             String name = genreService.getById(reqGenre.getId()).getName();
             reqGenre.setName(name);
         }
@@ -58,7 +55,7 @@ public class FilmController {
         newrequest.getMpa().setName(mpa.getName());
         newrequest.getMpa().setDescription(mpa.getDescription());
 
-       return newrequest;
+        return newrequest;
     }
 
     @PostMapping
@@ -68,8 +65,7 @@ public class FilmController {
         Film film = FilmMapper.mapToFilm(request);
         Film resultFilm = filmService.createFilm(film);
         //приводим ответ к виду запроса
-        NewFilmRequest newrequest =  FilmMapper.mapToFilmRequest(resultFilm);
-        return newrequest;
+        return FilmMapper.mapToFilmRequest(resultFilm);
     }
 
     @PutMapping
@@ -79,14 +75,13 @@ public class FilmController {
         Film film = FilmMapper.mapToFilm(request);
         Film resultFilm = filmService.update(film);
         //приводим ответ к виду запроса
-        NewFilmRequest newrequest =  FilmMapper.mapToFilmRequest(resultFilm);
-
-        return newrequest;
+        return FilmMapper.mapToFilmRequest(resultFilm);
     }
 
-   /**
+    /**
      * запрос добавляет лайк определенного пользователя
-     * @param id идентификатор фильма
+     *
+     * @param id     идентификатор фильма
      * @param userId индетификатор пользователя
      * @return фильм
      */
@@ -97,9 +92,11 @@ public class FilmController {
     }
 
     //
+
     /**
      * запрос удаляет лайк определенного пользователя
-     * @param id идентификатор фильма
+     *
+     * @param id     идентификатор фильма
      * @param userId индетификатор пользователя
      * @return фильм
      */
@@ -112,6 +109,7 @@ public class FilmController {
     /**
      * возвращает список из первых count фильмов по количеству лайков.
      * Если значение параметра count не задано, вернет первые 10
+     *
      * @param count количество фильмом в выборке
      * @return коллекцию фильмов
      */

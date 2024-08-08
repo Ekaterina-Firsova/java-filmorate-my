@@ -2,17 +2,12 @@ package ru.yandex.practicum.filmorate.mapper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import ru.yandex.practicum.filmorate.dal.FilmRepository;
 import ru.yandex.practicum.filmorate.dto.NewFilmRequest;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Mpa;
-import ru.yandex.practicum.filmorate.service.FilmService;
 
-import java.time.Instant;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -48,7 +43,7 @@ public final class FilmMapper {
         mpa.setId(film.getMpa());
         request.setMpa(mpa);
 
-        if (film.getGenres()!=null) {
+        if (film.getGenres() != null) {
             Set<Genre> genres = new HashSet<>();
             for (Integer id : film.getGenres()) {
                 Genre genre = new Genre();

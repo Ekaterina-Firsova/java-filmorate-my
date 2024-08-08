@@ -9,14 +9,6 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 
 @Component("userDbStorage")
 @RequiredArgsConstructor
@@ -81,8 +73,6 @@ public class UserDbStorage implements UserStorage {
                 orElseThrow(() -> new NotFoundException("Пользователь с id = " + id + " не найден"));
         userRepository.getUser(friendId).
                 orElseThrow(() -> new NotFoundException("Пользователь с id = " + friendId + " не найден"));
-//        userRepository.checkFriend(id, friendId).
-//                orElseThrow(()-> new NotFoundException("Друг " + friendId + " не является другом " + id));
         if (userRepository.deleteFriend(id, friendId)) {
             userRepository.updateFriendsStatus(friendId, id, false);
             return user;
