@@ -13,7 +13,7 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 - description – описание фильма
 - release_date – дата выпуска
 - duration – продолжительность в секуднах
-- id_rating – рейтинг МРА
+- id_mpa – рейтинг МРА
 
 ### users
 
@@ -25,14 +25,14 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 - login - логин
 - birthday – дата рождения
 
-### genre
+### genres
 
 – справочник жанров
 
 - id – уникальный идентификатор
 - name – название жанра
 
-### films_genre
+### film_genres
 
 – содержит информацию у какого фильма какой жанр
 - id – уникальный идентификатор
@@ -55,7 +55,7 @@ https://dbdiagram.io/d/filmorate-6694ff719939893daef29ecb
 - confirmed – подтверждение совместной дружбы
 - id_friend – идентификатор пользователя, который записался в друзья
 
-### rating
+### mpa
 
 – справочник видов рейтинга МРА
 
@@ -71,7 +71,7 @@ Table films {
   description varchar
   release_date date
   duration integer
-  id_rating integer
+  id_mpa integer
 }
 
 Table users {
@@ -88,7 +88,7 @@ Table film_genres {
   id_film integer
 }
 
-Table genre {
+Table genres {
   id integer [primary key]
   name varchar
 }
@@ -106,7 +106,7 @@ Table friends {
   id_friend integer 
 }
 
-Table rating {
+Table mpa {
   id integer [primary key]
   name varchar
   description varchar
@@ -114,7 +114,7 @@ Table rating {
 
 Ref: "films"."id" < "film_genres"."id_film"
 
-Ref: "genre"."id" < "film_genres"."id_genre"
+Ref: "genres"."id" < "film_genres"."id_genre"
 
 Ref: "films"."id" < "user_likes"."id_film"
 
@@ -124,5 +124,5 @@ Ref: "users"."id" < "friends"."id_user"
 
 Ref: "users"."id" < "friends"."id_friend"
 
-Ref: "films"."id_rating" > "rating"."id"
+Ref: "films"."id_mpa" > "mpa"."id"
 ```

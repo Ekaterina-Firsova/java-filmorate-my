@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FilmMapper {
+
     public static Film mapToFilm(NewFilmRequest request) {
         Film film = new Film();
         film.setId(request.getId());

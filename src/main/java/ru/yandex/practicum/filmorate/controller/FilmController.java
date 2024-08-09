@@ -45,26 +45,24 @@ public class FilmController {
     @GetMapping("{id}")
     public NewFilmRequest getFilm(@PathVariable long id) {
         Film resultFilm = filmService.getFilm(id);
-        NewFilmRequest newrequest = FilmMapper.mapToFilmRequest(resultFilm);
-        for (Genre reqGenre : newrequest.getGenres()) {
+        NewFilmRequest newRequest = FilmMapper.mapToFilmRequest(resultFilm);
+        for (Genre reqGenre : newRequest.getGenres()) {
             String name = genreService.getById(reqGenre.getId()).getName();
             reqGenre.setName(name);
         }
 
-        Mpa mpa = mpaService.getById(newrequest.getMpa().getId());
-        newrequest.getMpa().setName(mpa.getName());
-        newrequest.getMpa().setDescription(mpa.getDescription());
+        Mpa mpa = mpaService.getById(newRequest.getMpa().getId());
+        newRequest.getMpa().setName(mpa.getName());
+        newRequest.getMpa().setDescription(mpa.getDescription());
 
-        return newrequest;
+        return newRequest;
     }
 
     @PostMapping
     public NewFilmRequest createFilm(@Valid @RequestBody NewFilmRequest request) {
         log.info("POST createFilm: {}", request);
-        //приводим запрос к виду нашей таблицы
         Film film = FilmMapper.mapToFilm(request);
         Film resultFilm = filmService.createFilm(film);
-        //приводим ответ к виду запроса
         return FilmMapper.mapToFilmRequest(resultFilm);
     }
 
@@ -90,8 +88,6 @@ public class FilmController {
         log.info("PUT addLike: {}", id);
         return filmService.addLike(id, userId);
     }
-
-    //
 
     /**
      * запрос удаляет лайк определенного пользователя

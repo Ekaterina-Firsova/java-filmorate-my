@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 @Component
 public class UserLikeMapper implements RowMapper<UserLike> {
+
     @Override
     public UserLike mapRow(ResultSet rs, int rowNum) throws SQLException {
         UserLike userLike = new UserLike();
