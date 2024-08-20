@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 /**
- * This class represents a Film object with properties such as id, name, description, releaseDate, and duration.
+ * This class represents a Film object with properties such as  id, name, description, releaseDate, and duration.
  */
 @Data
 @EqualsAndHashCode(of = {"name", "releaseDate", "duration"})
